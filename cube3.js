@@ -395,8 +395,14 @@ function getRunTime(value) {
 
 function shuffleArray(array) {
     for (let i = 0; i < array.length; i++) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        for (let j = 0; j < array[0].length; j++) {
+            for (let h = 0; h < array[0][0].length; h++) {
+                let a = Math.floor(Math.random() * (i + 1));
+                let b = Math.floor(Math.random() * (j + 1));
+                let c = Math.floor(Math.random() * (h + 1));
+                [array[i][j][h], array[a][b][c]] = [array[a][b][c], array[i][j][h]];
+            }
+        }
     }
     return array;
 };
@@ -421,15 +427,14 @@ function main() {
     userInput.innerHTML = `CUBE> ${move}`; // CUBE MOVE 출력 단
 
     let str = ''; // 결과값 문자열 변수 지정
-    let ret = cube; // 초기값 cube 초기상태 지정
+    let ret = cube.map(item => item.map(item => item.map(item => item))); // 초기값 cube 초기상태 지정
     let cnt = 0; // 조작횟수 변수 지정
     getRunTime("start");
 
     for (let i = 0; i < move.length; i++) { // move 배열 루프문
         if (move[i] === '?') { // 큐브 무작위 섞기
+            ret = shuffleArray(ret);
             str += `-${move[i]}-<p>${answer(shuffleArray(ret))}</p>`;
-            result.innerHTML = str;
-            break
         }
         else if (move[i] === "Q") {
             // Quit
