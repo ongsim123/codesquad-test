@@ -371,6 +371,36 @@ function answer(ret) {
     return answer
 }
 
+function getRunTime(value) {
+    var startDate, endDate;
+
+    let startFlag = false;
+    let endFlag = false;
+    if (value === "start" && !startFlag) {
+        this.startDate = Date.now();
+        startFlag = true;
+    }
+
+    if (value === "end" && !endFlag) {
+        this.endDate = Date.now();
+        endFlag = true;
+    }
+
+    if (this.startDate && this.endDate) {
+        const start = new Date(this.startDate);
+        const end = new Date(this.endDate);
+        const result = (end - start) * 0.001;
+    }
+}
+
+function shuffleArray(array) {
+    for (let i = 0; i < array.length; i++) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
+
 function main() {
     const userInput = document.getElementById('userInput');
     const result = document.getElementById('result');
@@ -393,10 +423,21 @@ function main() {
     let str = ''; // 결과값 문자열 변수 지정
     let ret = cube; // 초기값 cube 초기상태 지정
     let cnt = 0; // 조작횟수 변수 지정
+    getRunTime("start");
 
     for (let i = 0; i < move.length; i++) { // move 배열 루프문
-        if (move[i] === 'Q') { // Quit
-            str += `-${move[i]}-<p>조작갯수 : ${cnt}</p><p>이용해주셔서 감사합니다. 뚜뚜뚜.</p>`;
+        if (move[i] === '?') { // 큐브 무작위 섞기
+            str += `-${move[i]}-<p>${answer(shuffleArray(ret))}</p>`;
+            result.innerHTML = str;
+            break
+        }
+        else if (move[i] === "Q") {
+            // Quit
+            getRunTime("end");
+            const start = new Date(this.startDate);
+            const end = new Date(this.endDate);
+            const time = (end - start) * 0.001;
+            str += `- ${move[i]} -<p>${time.toFixed(5)} 초</p ><p>조작갯수 : ${cnt}</p><p>이용해주셔서 감사합니다. 뚜뚜뚜.</p>`;
             result.innerHTML = str; // break하면 for문 마지막 str에 추가 안되기 때문에 추가
             break;
         }
@@ -408,7 +449,7 @@ function main() {
                         j++;
                         cnt++;
                         ret = moveF2(ret);
-                        str += `-${move[i] + move[i + 1]}-<p>${answer(ret)}</p>`;
+                        str += `- ${move[i] + move[i + 1]} -<p>${answer(ret)}</p > `;
                     }
                 }
                 else if (move[i] === "B") { // B'횟수
@@ -417,7 +458,7 @@ function main() {
                         j++;
                         cnt++;
                         ret = moveB2(ret);
-                        str += `-${move[i] + move[i + 1]}-<p>${answer(ret)}</p>`;
+                        str += `- ${move[i] + move[i + 1]} -<p>${answer(ret)}</p > `;
                     }
                 }
                 else if (move[i] === "R") { // R'횟수
@@ -426,7 +467,7 @@ function main() {
                         j++;
                         cnt++;
                         ret = moveR2(ret);
-                        str += `-${move[i] + move[i + 1]}-<p>${answer(ret)}</p>`;
+                        str += `- ${move[i] + move[i + 1]} -<p>${answer(ret)}</p > `;
                     }
                 }
                 else if (move[i] === "L") { // L'횟수
@@ -435,7 +476,7 @@ function main() {
                         j++;
                         cnt++;
                         ret = moveL2(ret);
-                        str += `-${move[i] + move[i + 1]}-<p>${answer(ret)}</p>`;
+                        str += `- ${move[i] + move[i + 1]} -<p>${answer(ret)}</p > `;
                     }
                 }
                 else if (move[i] === "U") { // U'횟수
@@ -444,7 +485,7 @@ function main() {
                         j++;
                         cnt++;
                         ret = moveU2(ret);
-                        str += `-${move[i] + move[i + 1]}-<p>${answer(ret)}</p>`;
+                        str += `- ${move[i] + move[i + 1]} -<p>${answer(ret)}</p > `;
                     }
                 }
                 else if (move[i] === "D") { // D'횟수
@@ -453,7 +494,7 @@ function main() {
                         j++;
                         cnt++;
                         ret = moveD2(ret);
-                        str += `-${move[i] + move[i + 1]}-<p>${answer(ret)}</p>`;
+                        str += `- ${move[i] + move[i + 1]} -<p>${answer(ret)}</p > `;
                     }
                 }
                 i + 2;
@@ -477,7 +518,7 @@ function main() {
                 else if (move[i] === "D") { // D'
                     ret = moveD2(ret);
                 }
-                str += `-${move[i] + move[i + 1]}-<p>${answer(ret)}</p>`;
+                str += `- ${move[i] + move[i + 1]} -<p>${answer(ret)}</p > `;
                 i++;
                 cnt++;
             }
@@ -490,7 +531,7 @@ function main() {
                     j++;
                     cnt++;
                     ret = moveF(ret);
-                    str += `-${move[i]}-<p>${answer(ret)}</p>`;
+                    str += `- ${move[i]} -<p>${answer(ret)}</p > `;
                 }
             }
             else if (move[i] === "B") { // B
@@ -499,7 +540,7 @@ function main() {
                     j++;
                     cnt++;
                     ret = moveB(ret);
-                    str += `-${move[i]}-<p>${answer(ret)}</p>`;
+                    str += `- ${move[i]} -<p>${answer(ret)}</p > `;
                 }
             }
             else if (move[i] === "R") { // R
@@ -508,7 +549,7 @@ function main() {
                     j++;
                     cnt++;
                     ret = moveR(ret);
-                    str += `-${move[i]}-<p>${answer(ret)}</p>`;
+                    str += `- ${move[i]} -<p>${answer(ret)}</p > `;
                 }
             }
             else if (move[i] === "L") { // L
@@ -517,7 +558,7 @@ function main() {
                     j++;
                     cnt++;
                     ret = moveL(ret);
-                    str += `-${move[i]}-<p>${answer(ret)}</p>`;
+                    str += `- ${move[i]} -<p>${answer(ret)}</p > `;
                 }
             }
             else if (move[i] === "U") { // U
@@ -526,7 +567,7 @@ function main() {
                     j++;
                     cnt++;
                     ret = moveU(ret);
-                    str += `-${move[i]}-<p>${answer(ret)}</p>`;
+                    str += `- ${move[i]} -<p>${answer(ret)}</p > `;
                 }
             }
             else if (move[i] === "D") { // D
@@ -535,7 +576,7 @@ function main() {
                     j++;
                     cnt++;
                     ret = moveD(ret);
-                    str += `-${move[i]}-<p>${answer(ret)}</p>`;
+                    str += `- ${move[i]} -<p>${answer(ret)}</p > `;
                 }
             }
             i++;
@@ -559,15 +600,24 @@ function main() {
             else if (move[i] === "D") { // D
                 ret = moveD(ret);
             }
-            str += `-${move[i]}-<p>${answer(ret)}</p>`;
+            str += `- ${move[i]} -<p>${answer(ret)}</p > `;
             cnt++;
         }
         else { // 입력 오류
             alert('입력 오류. 횟수가 1~9인지, 정확한 동작을 입력하였는지 재확인이 필요합니다.');
-            userInput.innerHTML = `CUBE> 입력 오류!`;
+            userInput.innerHTML = `CUBE > 입력 오류!`;
             break;
         }
         result.innerHTML = str;
+        if (answer(ret) === answer(cube)) { // 큐브 완성 시 축하 문구 & 프로그램 종료
+            alert("축하합니다! 큐브를 완성했습니다.");
+            getRunTime("end");
+            const start = new Date(this.startDate);
+            const end = new Date(this.endDate);
+            const time = (end - start) * 0.001;
+            str += `- Q -<p>${time.toFixed(5)} 초</p ><p>조작갯수 : ${cnt}</p><p>이용해주셔서 감사합니다. 뚜뚜뚜.</p>`;
+            result.innerHTML = str; // break하면 for문 마지막 str에 추가 안되기 때문에 추가
+        }
     }
 }
 main();
