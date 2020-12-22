@@ -371,8 +371,8 @@ function answer(ret) {
     return answer
 }
 
+var startDate, endDate;
 function getRunTime(value) {
-    var startDate, endDate;
 
     let startFlag = false;
     let endFlag = false;
